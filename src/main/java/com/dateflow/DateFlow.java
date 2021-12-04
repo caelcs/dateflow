@@ -9,14 +9,14 @@ public class DateFlow {
 
     private static final String TIME_ZONE = "UTC";
 
+    ZoneId zoneId;
     Instant instant;
-    Clock clock;
     TimeZone timeZone;
 
     private DateFlow() {
-        this.clock = Clock.fixed(Instant.now(), ZoneId.of(TIME_ZONE));
+        zoneId = ZoneId.of(TIME_ZONE);
         this.timeZone = TimeZone.getTimeZone(TIME_ZONE);
-        this.instant = Instant.now(clock);
+        this.instant = Instant.now().atZone(zoneId).toInstant();
     }
 
     public static DateFlow now() {
@@ -27,7 +27,7 @@ public class DateFlow {
         DateFlow dateFlow = new DateFlow();
         dateFlow.instant = localDate
                 .atStartOfDay()
-                .atZone(dateFlow.clock.getZone())
+                .atZone(dateFlow.zoneId)
                 .toInstant();
         return dateFlow;
     }
@@ -35,7 +35,7 @@ public class DateFlow {
     public static DateFlow from(LocalDateTime localDateTime) {
         DateFlow dateFlow = new DateFlow();
         dateFlow.instant = localDateTime
-                .atZone(dateFlow.clock.getZone())
+                .atZone(dateFlow.zoneId)
                 .toInstant();
         return dateFlow;
     }
@@ -43,7 +43,7 @@ public class DateFlow {
     public static DateFlow from(Date date) {
         DateFlow dateFlow = new DateFlow();
         dateFlow.instant = ZonedDateTime
-                .ofInstant(date.toInstant(), dateFlow.clock.getZone())
+                .ofInstant(date.toInstant(), dateFlow.zoneId)
                 .toInstant();
         return dateFlow;
     }
@@ -52,21 +52,21 @@ public class DateFlow {
         DateFlow dateFlow = new DateFlow();
         dateFlow.instant = Instant
                 .ofEpochMilli(millis)
-                .atZone(dateFlow.clock.getZone())
+                .atZone(dateFlow.zoneId)
                 .toInstant();
         return dateFlow;
     }
 
     public DateFlow resetMidnightTime() {
         this.instant = this.instant
-                .atZone(clock.getZone())
+                .atZone(zoneId)
                 .truncatedTo(ChronoUnit.DAYS)
                 .toInstant();
         return this;
     }
 
     public DateFlow resetTimeToLastSecondOfDay() {
-        this.instant = this.instant.atZone(clock.getZone())
+        this.instant = this.instant.atZone(zoneId)
                 .withHour(23)
                 .withMinute(59)
                 .withSecond(59)
@@ -76,7 +76,7 @@ public class DateFlow {
 
     public DateFlow addMonths(int months) {
         this.instant = this.instant
-                .atZone(clock.getZone())
+                .atZone(zoneId)
                 .plusMonths(months)
                 .toInstant();
         return this;
@@ -84,8 +84,32 @@ public class DateFlow {
 
     public DateFlow addDays(int days) {
         this.instant = this.instant
-                .atZone(clock.getZone())
+                .atZone(zoneId)
                 .plusDays(days)
+                .toInstant();
+        return this;
+    }
+
+    public DateFlow addMinutes(int minutes) {
+        this.instant = this.instant
+                .atZone(zoneId)
+                .plusMinutes(minutes)
+                .toInstant();
+        return this;
+    }
+
+    public DateFlow addHours(int hours) {
+        this.instant = this.instant
+                .atZone(zoneId)
+                .plusHours(hours)
+                .toInstant();
+        return this;
+    }
+
+    public DateFlow addSeconds(int seconds) {
+        this.instant = this.instant
+                .atZone(zoneId)
+                .plusSeconds(seconds)
                 .toInstant();
         return this;
     }

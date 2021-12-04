@@ -16,7 +16,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.clock).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
         assertThat(dateFlow.timeZone).isNotNull();
         assertThat(dateFlow.instant)
                 .isNotNull()
@@ -30,7 +30,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.clock).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
         assertThat(dateFlow.timeZone).isNotNull();
         assertThat(dateFlow.instant)
                 .isNotNull()
@@ -44,7 +44,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.clock).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
         assertThat(dateFlow.timeZone).isNotNull();
         assertThat(dateFlow.instant)
                 .isNotNull()
@@ -58,7 +58,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.clock).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
         assertThat(dateFlow.timeZone).isNotNull();
         assertThat(dateFlow.instant)
                 .isNotNull()
@@ -72,7 +72,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.clock).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
         assertThat(dateFlow.timeZone).isNotNull();
         assertThat(dateFlow.instant)
                 .isNotNull()
@@ -87,7 +87,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.clock).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
         assertThat(dateFlow.timeZone).isNotNull();
         assertThat(dateFlow.instant)
                 .isNotNull()
@@ -106,7 +106,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.clock).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
         assertThat(dateFlow.timeZone).isNotNull();
         assertThat(dateFlow.instant)
                 .isNotNull()
@@ -125,12 +125,12 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.clock).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
         assertThat(dateFlow.timeZone).isNotNull();
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .satisfies(it ->
-                    assertThat(it.atZone(dateFlow.clock.getZone()).getMonth())
+                    assertThat(it.atZone(dateFlow.zoneId).getMonth())
                             .isEqualTo(Month.FEBRUARY));
     }
 
@@ -142,12 +142,64 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.clock).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
         assertThat(dateFlow.timeZone).isNotNull();
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .satisfies(it ->
-                        assertThat(it.atZone(dateFlow.clock.getZone()).getDayOfMonth())
+                        assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
                                 .isEqualTo(6));
     }
+
+    @Test
+    void shouldAddMinutes() {
+        //When
+        DateFlow dateFlow = DateFlow.from(1638657346786L)
+                .addMinutes(2);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
+        assertThat(dateFlow.timeZone).isNotNull();
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it ->
+                        assertThat(it.atZone(dateFlow.zoneId).getMinute())
+                                .isEqualTo(37));
+    }
+
+    @Test
+    void shouldAddHours() {
+        //When
+        DateFlow dateFlow = DateFlow.from(1638657346786L)
+                .addHours(2);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
+        assertThat(dateFlow.timeZone).isNotNull();
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it ->
+                        assertThat(it.atZone(dateFlow.zoneId).getHour())
+                                .isZero());
+    }
+
+    @Test
+    void shouldAddSeconds() {
+        //When
+        DateFlow dateFlow = DateFlow.from(1638657346786L)
+                .addSeconds(2);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertThat(dateFlow.zoneId).isNotNull();
+        assertThat(dateFlow.timeZone).isNotNull();
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it ->
+                        assertThat(it.atZone(dateFlow.zoneId).getSecond())
+                                .isEqualTo(48));
+    }
+
 }
