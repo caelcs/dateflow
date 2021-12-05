@@ -1,12 +1,13 @@
 package com.dateflow;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.text.ParseException;
 import java.time.*;
 import java.util.Date;
 
-import static com.dateflow.DateFlow.DATE_FORMAT_WITH_MILLIS;
 import static com.dateflow.DateFlow.TIME_ZONE;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -96,13 +97,14 @@ class DateFlowTest {
                 });
     }
 
-    @Test
-    void shouldCreateDateFromStringAndFormat() throws ParseException {
-        //Given
-        var date = "2021-12-04T22:35:46.777Z";
-
+    @ParameterizedTest
+    @CsvSource({
+            "2021-12-04T22:35:46.777Z,yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+            "2021-12-04T22:35:46Z,yyyy-MM-dd'T'HH:mm:ss'Z'",
+            "2021-12-04T22:35:46,yyyy-MM-dd'T'HH:mm:ss"})
+    void shouldCreateDateFromStringAndFormat(String date, String dateFormat) throws ParseException {
         //When
-        var dateFlow = DateFlow.from(date, DATE_FORMAT_WITH_MILLIS);
+        var dateFlow = DateFlow.from(date, dateFormat);
 
         //Then
         assertThat(dateFlow).isNotNull();
