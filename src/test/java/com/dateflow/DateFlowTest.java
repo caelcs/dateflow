@@ -127,6 +127,64 @@ class DateFlowTest {
                 });
     }
 
+    @Test
+    void shouldCreateDateFromStringAndDateFormat() throws ParseException {
+        var date = "2021-12-04";
+        var dateFormat = "yyyy-MM-dd";
+
+        //When
+        var dateFlow = DateFlow.from(date, dateFormat);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertBaseDateFlow(dateFlow);
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it -> {
+                    assertThat(it.atZone(dateFlow.zoneId).getYear())
+                            .isEqualTo(2021);
+                    assertThat(it.atZone(dateFlow.zoneId).getMonth())
+                            .isEqualTo(Month.DECEMBER);
+                    assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
+                            .isEqualTo(4);
+                    assertThat(it.atZone(dateFlow.zoneId).getHour())
+                            .isZero();
+                    assertThat(it.atZone(dateFlow.zoneId).getMinute())
+                            .isZero();
+                    assertThat(it.atZone(dateFlow.zoneId).getSecond())
+                            .isZero();
+                });
+    }
+
+    @Test
+    void shouldCreateDateFromStringAndTimeFormat() throws ParseException {
+        var date = "2021-12-04";
+        var dateFormat = "yyyy-MM-dd";
+
+        //When
+        var dateFlow = DateFlow.from(date, dateFormat);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertBaseDateFlow(dateFlow);
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it -> {
+                    assertThat(it.atZone(dateFlow.zoneId).getYear())
+                            .isEqualTo(2021);
+                    assertThat(it.atZone(dateFlow.zoneId).getMonth())
+                            .isEqualTo(Month.DECEMBER);
+                    assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
+                            .isEqualTo(4);
+                    assertThat(it.atZone(dateFlow.zoneId).getHour())
+                            .isZero();
+                    assertThat(it.atZone(dateFlow.zoneId).getMinute())
+                            .isZero();
+                    assertThat(it.atZone(dateFlow.zoneId).getSecond())
+                            .isZero();
+                });
+    }
+
 
     @Test
     void shouldCreateDateFromDate() {
