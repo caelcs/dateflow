@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.time.*;
 import java.util.Date;
 
+import static com.dateflow.DateFlow.TIME_ZONE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DateFlowTest {
@@ -16,8 +17,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .isBeforeOrEqualTo(Instant.now());
@@ -30,8 +30,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .isBeforeOrEqualTo(Instant.now());
@@ -44,8 +43,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .isBeforeOrEqualTo(Instant.now());
@@ -58,8 +56,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .isBeforeOrEqualTo(Instant.now());
@@ -72,8 +69,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .isBeforeOrEqualTo(Instant.now());
@@ -87,8 +83,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .satisfies(it -> {
@@ -106,8 +101,7 @@ class DateFlowTest {
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .satisfies(it -> {
@@ -121,12 +115,11 @@ class DateFlowTest {
     void shouldAddMonths() {
         //When
         DateFlow dateFlow = DateFlow.from(1638657346786L)
-                .addMonths(2);
+                .plusMonths(2);
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .satisfies(it ->
@@ -137,13 +130,13 @@ class DateFlowTest {
     @Test
     void shouldAddDays() {
         //When
+        //Instant.parse(2021-12-04T22:35:46.786Z)
         DateFlow dateFlow = DateFlow.from(1638657346786L)
-                .addDays(2);
+                .plusDays(2);
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .satisfies(it ->
@@ -155,12 +148,11 @@ class DateFlowTest {
     void shouldAddMinutes() {
         //When
         DateFlow dateFlow = DateFlow.from(1638657346786L)
-                .addMinutes(2);
+                .plusMinutes(2);
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .satisfies(it ->
@@ -172,12 +164,11 @@ class DateFlowTest {
     void shouldAddHours() {
         //When
         DateFlow dateFlow = DateFlow.from(1638657346786L)
-                .addHours(2);
+                .plusHours(2);
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .satisfies(it ->
@@ -189,12 +180,11 @@ class DateFlowTest {
     void shouldAddSeconds() {
         //When
         DateFlow dateFlow = DateFlow.from(1638657346786L)
-                .addSeconds(2);
+                .plusSeconds(2);
 
         //Then
         assertThat(dateFlow).isNotNull();
-        assertThat(dateFlow.zoneId).isNotNull();
-        assertThat(dateFlow.timeZone).isNotNull();
+        assertBaseDateFlow(dateFlow);
         assertThat(dateFlow.instant)
                 .isNotNull()
                 .satisfies(it ->
@@ -202,4 +192,106 @@ class DateFlowTest {
                                 .isEqualTo(48));
     }
 
+    @Test
+    void shouldSubtractSeconds() {
+        //When
+        DateFlow dateFlow = DateFlow.from(1638657346786L)
+                .minusSeconds(2);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertBaseDateFlow(dateFlow);
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it ->
+                        assertThat(it.atZone(dateFlow.zoneId).getSecond())
+                                .isEqualTo(44));
+    }
+
+    @Test
+    void shouldSubtractMinutes() {
+        //When
+        DateFlow dateFlow = DateFlow.from(1638657346786L)
+                .minusMinutes(2);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertBaseDateFlow(dateFlow);
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it ->
+                        assertThat(it.atZone(dateFlow.zoneId).getMinute())
+                                .isEqualTo(33));
+    }
+
+    @Test
+    void shouldSubtractHours() {
+        //When
+        DateFlow dateFlow = DateFlow.from(1638657346786L)
+                .minusHours(2);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertBaseDateFlow(dateFlow);
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it ->
+                        assertThat(it.atZone(dateFlow.zoneId).getHour())
+                                .isEqualTo(20));
+    }
+
+    @Test
+    void shouldSubtractDays() {
+        //When
+        DateFlow dateFlow = DateFlow.from(1638657346786L)
+                .minusDays(2);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertBaseDateFlow(dateFlow);
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it ->
+                        assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
+                                .isEqualTo(2));
+    }
+
+    @Test
+    void shouldSubtractMonths() {
+        //When
+        DateFlow dateFlow = DateFlow.from(1638657346786L)
+                .minusMonths(2);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertBaseDateFlow(dateFlow);
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it ->
+                        assertThat(it.atZone(dateFlow.zoneId).getMonth())
+                                .isEqualTo(Month.OCTOBER));
+    }
+
+    @Test
+    void shouldReturnDate() {
+        //When
+        DateFlow dateFlow = DateFlow.from(1638657346786L)
+                .minusMonths(2);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertBaseDateFlow(dateFlow);
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it ->
+                        assertThat(it.atZone(dateFlow.zoneId).getMonth())
+                                .isEqualTo(Month.OCTOBER));
+    }
+
+    private void assertBaseDateFlow(DateFlow dateFlow) {
+        assertThat(dateFlow.zoneId).isNotNull()
+                .satisfies(it -> assertThat(it.getId()).isEqualTo(TIME_ZONE));
+        assertThat(dateFlow.timeZone).isNotNull()
+                .satisfies(it -> assertThat(it.toZoneId().getId()).isEqualTo(TIME_ZONE));
+    }
 }

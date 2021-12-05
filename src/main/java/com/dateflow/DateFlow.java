@@ -7,15 +7,15 @@ import java.util.TimeZone;
 
 public class DateFlow {
 
-    private static final String TIME_ZONE = "UTC";
+    static final String TIME_ZONE = "UTC";
 
     ZoneId zoneId;
     Instant instant;
     TimeZone timeZone;
 
     private DateFlow() {
-        zoneId = ZoneId.of(TIME_ZONE);
-        this.timeZone = TimeZone.getTimeZone(TIME_ZONE);
+        this.zoneId = ZoneId.of(TIME_ZONE);
+        this.timeZone = TimeZone.getTimeZone(zoneId);
         this.instant = Instant.now().atZone(zoneId).toInstant();
     }
 
@@ -74,7 +74,7 @@ public class DateFlow {
         return this;
     }
 
-    public DateFlow addMonths(int months) {
+    public DateFlow plusMonths(int months) {
         this.instant = this.instant
                 .atZone(zoneId)
                 .plusMonths(months)
@@ -82,7 +82,7 @@ public class DateFlow {
         return this;
     }
 
-    public DateFlow addDays(int days) {
+    public DateFlow plusDays(int days) {
         this.instant = this.instant
                 .atZone(zoneId)
                 .plusDays(days)
@@ -90,7 +90,7 @@ public class DateFlow {
         return this;
     }
 
-    public DateFlow addMinutes(int minutes) {
+    public DateFlow plusMinutes(int minutes) {
         this.instant = this.instant
                 .atZone(zoneId)
                 .plusMinutes(minutes)
@@ -98,7 +98,7 @@ public class DateFlow {
         return this;
     }
 
-    public DateFlow addHours(int hours) {
+    public DateFlow plusHours(int hours) {
         this.instant = this.instant
                 .atZone(zoneId)
                 .plusHours(hours)
@@ -106,10 +106,50 @@ public class DateFlow {
         return this;
     }
 
-    public DateFlow addSeconds(int seconds) {
+    public DateFlow plusSeconds(int seconds) {
         this.instant = this.instant
                 .atZone(zoneId)
                 .plusSeconds(seconds)
+                .toInstant();
+        return this;
+    }
+
+    public DateFlow minusSeconds(int seconds) {
+        this.instant = this.instant
+                .atZone(zoneId)
+                .minusSeconds(seconds)
+                .toInstant();
+        return this;
+    }
+
+    public DateFlow minusMinutes(int minutes) {
+        this.instant = this.instant
+                .atZone(zoneId)
+                .minusMinutes(minutes)
+                .toInstant();
+        return this;
+    }
+
+    public DateFlow minusHours(int hours) {
+        this.instant = this.instant
+                .atZone(zoneId)
+                .minusHours(hours)
+                .toInstant();
+        return this;
+    }
+
+    public DateFlow minusDays(int days) {
+        this.instant = this.instant
+                .atZone(zoneId)
+                .minusDays(days)
+                .toInstant();
+        return this;
+    }
+
+    public DateFlow minusMonths(int months) {
+        this.instant = this.instant
+                .atZone(zoneId)
+                .minusMonths(months)
                 .toInstant();
         return this;
     }
