@@ -57,6 +57,14 @@ public class DateFlow {
         return dateFlow;
     }
 
+    public static DateFlow from(Instant instant) {
+        DateFlow dateFlow = new DateFlow();
+        dateFlow.instant = instant
+                .atZone(dateFlow.zoneId)
+                .toInstant();
+        return dateFlow;
+    }
+
     public DateFlow resetMidnightTime() {
         this.instant = this.instant
                 .atZone(zoneId)
@@ -152,5 +160,17 @@ public class DateFlow {
                 .minusMonths(months)
                 .toInstant();
         return this;
+    }
+
+    public Date toDate() {
+        return Date.from(instant);
+    }
+
+    public LocalDate toLocalDate() {
+        return LocalDate.ofInstant(instant, zoneId);
+    }
+
+    public LocalDateTime toLocalDateTime() {
+        return LocalDateTime.ofInstant(instant, zoneId);
     }
 }
