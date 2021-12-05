@@ -2,9 +2,11 @@ package com.dateflow;
 
 import org.junit.jupiter.api.Test;
 
+import java.text.ParseException;
 import java.time.*;
 import java.util.Date;
 
+import static com.dateflow.DateFlow.DATE_FORMAT_WITH_MILLIS;
 import static com.dateflow.DateFlow.TIME_ZONE;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,7 +15,7 @@ class DateFlowTest {
     @Test
     void shouldCreateDateFromNow() {
         //When
-        DateFlow dateFlow = DateFlow.now();
+        var dateFlow = DateFlow.now();
 
         //Then
         assertThat(dateFlow).isNotNull();
@@ -26,7 +28,7 @@ class DateFlowTest {
     @Test
     void shouldCreateDateFromLocalDate() {
         //When
-        DateFlow dateFlow = DateFlow.from(LocalDate.now());
+        var dateFlow = DateFlow.from(LocalDate.now());
 
         //Then
         assertThat(dateFlow).isNotNull();
@@ -39,7 +41,7 @@ class DateFlowTest {
     @Test
     void shouldCreateDateFromLocalDateTime() {
         //When
-        DateFlow dateFlow = DateFlow.from(LocalDateTime.now());
+        var dateFlow = DateFlow.from(LocalDateTime.now());
 
         //Then
         assertThat(dateFlow).isNotNull();
@@ -52,10 +54,10 @@ class DateFlowTest {
     @Test
     void shouldCreateDateFromInstant() {
         //Given
-        Instant now = Instant.now();
+        var now = Instant.now();
 
         //When
-        DateFlow dateFlow = DateFlow.from(now);
+        var dateFlow = DateFlow.from(now);
 
         //Then
         assertThat(dateFlow).isNotNull();
@@ -66,9 +68,68 @@ class DateFlowTest {
     }
 
     @Test
+    void shouldCreateDateFromString() throws ParseException {
+        //Given
+        var date = "2021-12-04T22:35:46Z";
+
+        //When
+        var dateFlow = DateFlow.from(date);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertBaseDateFlow(dateFlow);
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it -> {
+                    assertThat(it.atZone(dateFlow.zoneId).getYear())
+                            .isEqualTo(2021);
+                    assertThat(it.atZone(dateFlow.zoneId).getMonth())
+                            .isEqualTo(Month.DECEMBER);
+                    assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
+                            .isEqualTo(4);
+                    assertThat(it.atZone(dateFlow.zoneId).getHour())
+                            .isEqualTo(22);
+                    assertThat(it.atZone(dateFlow.zoneId).getMinute())
+                            .isEqualTo(35);
+                    assertThat(it.atZone(dateFlow.zoneId).getSecond())
+                            .isEqualTo(46);
+                });
+    }
+
+    @Test
+    void shouldCreateDateFromStringAndFormat() throws ParseException {
+        //Given
+        var date = "2021-12-04T22:35:46.777Z";
+
+        //When
+        var dateFlow = DateFlow.from(date, DATE_FORMAT_WITH_MILLIS);
+
+        //Then
+        assertThat(dateFlow).isNotNull();
+        assertBaseDateFlow(dateFlow);
+        assertThat(dateFlow.instant)
+                .isNotNull()
+                .satisfies(it -> {
+                    assertThat(it.atZone(dateFlow.zoneId).getYear())
+                            .isEqualTo(2021);
+                    assertThat(it.atZone(dateFlow.zoneId).getMonth())
+                            .isEqualTo(Month.DECEMBER);
+                    assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
+                            .isEqualTo(4);
+                    assertThat(it.atZone(dateFlow.zoneId).getHour())
+                            .isEqualTo(22);
+                    assertThat(it.atZone(dateFlow.zoneId).getMinute())
+                            .isEqualTo(35);
+                    assertThat(it.atZone(dateFlow.zoneId).getSecond())
+                            .isEqualTo(46);
+                });
+    }
+
+
+    @Test
     void shouldCreateDateFromDate() {
         //When
-        DateFlow dateFlow = DateFlow.from(new Date());
+        var dateFlow = DateFlow.from(new Date());
 
         //Then
         assertThat(dateFlow).isNotNull();
@@ -81,7 +142,7 @@ class DateFlowTest {
     @Test
     void shouldCreateDateFromMillis() {
         //When
-        DateFlow dateFlow = DateFlow.from(Instant.now().toEpochMilli());
+        var dateFlow = DateFlow.from(Instant.now().toEpochMilli());
 
         //Then
         assertThat(dateFlow).isNotNull();
@@ -94,7 +155,7 @@ class DateFlowTest {
     @Test
     void shouldResetMidNightTime() {
         //When
-        DateFlow dateFlow = DateFlow.now()
+        var dateFlow = DateFlow.now()
                 .resetMidnightTime();
 
         //Then
@@ -112,7 +173,7 @@ class DateFlowTest {
     @Test
     void shouldResetTimeToLastSecondOfDay() {
         //When
-        DateFlow dateFlow = DateFlow.now()
+        var dateFlow = DateFlow.now()
                 .resetTimeToLastSecondOfDay();
 
         //Then
@@ -130,7 +191,7 @@ class DateFlowTest {
     @Test
     void shouldAddMonths() {
         //When
-        DateFlow dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
+        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
                 .plusMonths(2);
 
         //Then
@@ -146,7 +207,7 @@ class DateFlowTest {
     @Test
     void shouldAddDays() {
         //When
-        DateFlow dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
+        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
                 .plusDays(2);
 
         //Then
@@ -162,7 +223,7 @@ class DateFlowTest {
     @Test
     void shouldAddMinutes() {
         //When
-        DateFlow dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
+        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
                 .plusMinutes(2);
 
         //Then
@@ -178,7 +239,7 @@ class DateFlowTest {
     @Test
     void shouldAddHours() {
         //When
-        DateFlow dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
+        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
                 .plusHours(2);
 
         //Then
@@ -194,7 +255,7 @@ class DateFlowTest {
     @Test
     void shouldAddSeconds() {
         //When
-        DateFlow dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
+        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
                 .plusSeconds(2);
 
         //Then
@@ -210,7 +271,7 @@ class DateFlowTest {
     @Test
     void shouldSubtractSeconds() {
         //When
-        DateFlow dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
+        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
                 .minusSeconds(2);
 
         //Then
@@ -226,7 +287,7 @@ class DateFlowTest {
     @Test
     void shouldSubtractMinutes() {
         //When
-        DateFlow dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
+        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
                 .minusMinutes(2);
 
         //Then
@@ -242,7 +303,7 @@ class DateFlowTest {
     @Test
     void shouldSubtractHours() {
         //When
-        DateFlow dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
+        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
                 .minusHours(2);
 
         //Then
@@ -258,7 +319,7 @@ class DateFlowTest {
     @Test
     void shouldSubtractDays() {
         //When
-        DateFlow dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
+        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
                 .minusDays(2);
 
         //Then
@@ -274,7 +335,7 @@ class DateFlowTest {
     @Test
     void shouldSubtractMonths() {
         //When
-        DateFlow dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
+        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
                 .minusMonths(2);
 
         //Then
@@ -290,7 +351,7 @@ class DateFlowTest {
     @Test
     void shouldReturnDate() {
         //When
-        Date result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).toDate();
+        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).toDate();
 
         //Then
         assertThat(result)
@@ -306,7 +367,7 @@ class DateFlowTest {
     @Test
     void shouldReturnLocalDate() {
         //When
-        LocalDate result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).toLocalDate();
+        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).toLocalDate();
 
         //Then
         assertThat(result)
@@ -321,7 +382,7 @@ class DateFlowTest {
     @Test
     void shouldReturnLocalDateTime() {
         //When
-        LocalDateTime result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).toLocalDateTime();
+        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).toLocalDateTime();
 
         //Then
         assertThat(result)

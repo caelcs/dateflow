@@ -1,5 +1,7 @@
 package com.dateflow;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -8,15 +10,19 @@ import java.util.TimeZone;
 public class DateFlow {
 
     static final String TIME_ZONE = "UTC";
+    static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    static final String DATE_FORMAT_WITH_MILLIS = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     ZoneId zoneId;
     Instant instant;
     TimeZone timeZone;
+    String dateFormat;
 
     private DateFlow() {
         this.zoneId = ZoneId.of(TIME_ZONE);
         this.timeZone = TimeZone.getTimeZone(zoneId);
         this.instant = Instant.now().atZone(zoneId).toInstant();
+        this.dateFormat = DATE_FORMAT;
     }
 
     public static DateFlow now() {
@@ -24,7 +30,7 @@ public class DateFlow {
     }
 
     public static DateFlow from(LocalDate localDate) {
-        DateFlow dateFlow = new DateFlow();
+        var dateFlow = new DateFlow();
         dateFlow.instant = localDate
                 .atStartOfDay()
                 .atZone(dateFlow.zoneId)
@@ -33,7 +39,7 @@ public class DateFlow {
     }
 
     public static DateFlow from(LocalDateTime localDateTime) {
-        DateFlow dateFlow = new DateFlow();
+        var dateFlow = new DateFlow();
         dateFlow.instant = localDateTime
                 .atZone(dateFlow.zoneId)
                 .toInstant();
@@ -41,7 +47,7 @@ public class DateFlow {
     }
 
     public static DateFlow from(Date date) {
-        DateFlow dateFlow = new DateFlow();
+        var dateFlow = new DateFlow();
         dateFlow.instant = ZonedDateTime
                 .ofInstant(date.toInstant(), dateFlow.zoneId)
                 .toInstant();
@@ -49,7 +55,7 @@ public class DateFlow {
     }
 
     public static DateFlow from(long millis) {
-        DateFlow dateFlow = new DateFlow();
+        var dateFlow = new DateFlow();
         dateFlow.instant = Instant
                 .ofEpochMilli(millis)
                 .atZone(dateFlow.zoneId)
@@ -58,11 +64,23 @@ public class DateFlow {
     }
 
     public static DateFlow from(Instant instant) {
-        DateFlow dateFlow = new DateFlow();
+        var dateFlow = new DateFlow();
         dateFlow.instant = instant
                 .atZone(dateFlow.zoneId)
                 .toInstant();
         return dateFlow;
+    }
+
+    public static DateFlow from(String date) throws ParseException {
+        return from(date, DATE_FORMAT);
+    }
+
+    public static DateFlow from(String date, String dateFormat) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
+        format.setTimeZone(TimeZone.getTimeZone(TIME_ZONE));
+        format.setLenient(false);
+        Date dateParsed = format.parse(date);
+        return from(dateParsed);
     }
 
     public DateFlow resetMidnightTime() {
