@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.text.ParseException;
 import java.time.*;
+import java.time.format.FormatStyle;
 import java.util.Date;
 
 import static com.dateflow.DateFlow.TIME_ZONE;
@@ -411,7 +412,7 @@ class DateFlowTest {
     @Test
     void shouldReturnDate() {
         //When
-        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).toDate();
+        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).asDate();
 
         //Then
         assertThat(result)
@@ -427,7 +428,7 @@ class DateFlowTest {
     @Test
     void shouldReturnLocalDate() {
         //When
-        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).toLocalDate();
+        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).asLocalDate();
 
         //Then
         assertThat(result)
@@ -442,7 +443,7 @@ class DateFlowTest {
     @Test
     void shouldReturnLocalDateTime() {
         //When
-        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).toLocalDateTime();
+        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).asLocalDateTime();
 
         //Then
         assertThat(result)
@@ -455,6 +456,22 @@ class DateFlowTest {
                     assertThat(it.getMinute()).isEqualTo(35);
                     assertThat(it.getSecond()).isEqualTo(46);
                 });
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "uuuu-MM-dd,2021-12-04"
+            })
+    void shouldReturnString(String format, String expectedDate) {
+        //When
+        var result = DateFlow
+                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
+                .asString(format);
+
+        //Then
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(expectedDate);
     }
 
     private void assertBaseDateFlow(DateFlow dateFlow) {

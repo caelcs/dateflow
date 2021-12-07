@@ -3,6 +3,7 @@ package com.dateflow;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.TimeZone;
@@ -11,18 +12,15 @@ public class DateFlow {
 
     static final String TIME_ZONE = "UTC";
     static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    static final String DATE_FORMAT_WITH_MILLIS = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     ZoneId zoneId;
     Instant instant;
     TimeZone timeZone;
-    String dateFormat;
 
     private DateFlow() {
         this.zoneId = ZoneId.of(TIME_ZONE);
         this.timeZone = TimeZone.getTimeZone(zoneId);
         this.instant = Instant.now().atZone(zoneId).toInstant();
-        this.dateFormat = DATE_FORMAT;
     }
 
     public static DateFlow now() {
@@ -180,15 +178,22 @@ public class DateFlow {
         return this;
     }
 
-    public Date toDate() {
+    public Date asDate() {
         return Date.from(instant);
     }
 
-    public LocalDate toLocalDate() {
+    public LocalDate asLocalDate() {
         return LocalDate.ofInstant(instant, zoneId);
     }
 
-    public LocalDateTime toLocalDateTime() {
+    public LocalDateTime asLocalDateTime() {
         return LocalDateTime.ofInstant(instant, zoneId);
+    }
+
+    public String asString(String format) {
+        DateTimeFormatter formatter = DateTimeFormatter
+                .ofPattern(format)
+                .withZone(zoneId);;
+        return formatter.format(instant);
     }
 }
