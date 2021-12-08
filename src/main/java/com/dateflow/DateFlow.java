@@ -84,7 +84,7 @@ public class DateFlow {
     }
 
     public DateFlow resetMidnightTime() {
-        this.instant = this.instant
+        instant = instant
                 .atZone(zoneId)
                 .truncatedTo(ChronoUnit.DAYS)
                 .toInstant();
@@ -92,7 +92,7 @@ public class DateFlow {
     }
 
     public DateFlow resetTimeToLastSecondOfDay() {
-        this.instant = this.instant.atZone(zoneId)
+        instant = instant.atZone(zoneId)
                 .withHour(23)
                 .withMinute(59)
                 .withSecond(59)
@@ -101,7 +101,7 @@ public class DateFlow {
     }
 
     public DateFlow plusMonths(int months) {
-        this.instant = this.instant
+        instant = instant
                 .atZone(zoneId)
                 .plusMonths(months)
                 .toInstant();
@@ -109,7 +109,7 @@ public class DateFlow {
     }
 
     public DateFlow plusDays(int days) {
-        this.instant = this.instant
+        instant = instant
                 .atZone(zoneId)
                 .plusDays(days)
                 .toInstant();
@@ -117,7 +117,7 @@ public class DateFlow {
     }
 
     public DateFlow plusMinutes(int minutes) {
-        this.instant = this.instant
+        instant = instant
                 .atZone(zoneId)
                 .plusMinutes(minutes)
                 .toInstant();
@@ -125,7 +125,7 @@ public class DateFlow {
     }
 
     public DateFlow plusHours(int hours) {
-        this.instant = this.instant
+        instant = instant
                 .atZone(zoneId)
                 .plusHours(hours)
                 .toInstant();
@@ -133,7 +133,7 @@ public class DateFlow {
     }
 
     public DateFlow plusSeconds(int seconds) {
-        this.instant = this.instant
+        instant = instant
                 .atZone(zoneId)
                 .plusSeconds(seconds)
                 .toInstant();
@@ -141,7 +141,7 @@ public class DateFlow {
     }
 
     public DateFlow minusSeconds(int seconds) {
-        this.instant = this.instant
+        instant = instant
                 .atZone(zoneId)
                 .minusSeconds(seconds)
                 .toInstant();
@@ -149,7 +149,7 @@ public class DateFlow {
     }
 
     public DateFlow minusMinutes(int minutes) {
-        this.instant = this.instant
+        instant = instant
                 .atZone(zoneId)
                 .minusMinutes(minutes)
                 .toInstant();
@@ -157,7 +157,7 @@ public class DateFlow {
     }
 
     public DateFlow minusHours(int hours) {
-        this.instant = this.instant
+        instant = instant
                 .atZone(zoneId)
                 .minusHours(hours)
                 .toInstant();
@@ -165,7 +165,7 @@ public class DateFlow {
     }
 
     public DateFlow minusDays(int days) {
-        this.instant = this.instant
+        instant = instant
                 .atZone(zoneId)
                 .minusDays(days)
                 .toInstant();
@@ -173,7 +173,7 @@ public class DateFlow {
     }
 
     public DateFlow minusMonths(int months) {
-        this.instant = this.instant
+        instant = instant
                 .atZone(zoneId)
                 .minusMonths(months)
                 .toInstant();
@@ -199,13 +199,37 @@ public class DateFlow {
         return formatter.format(instant);
     }
 
-    public DateFlow zoneId(ZoneId zoneId) {
-        outputZoneId = zoneId;
+    public DateFlow zoneId(ZoneId newZoneId) {
+        outputZoneId = newZoneId;
         return this;
     }
 
     public DateFlow zoneIdUTC() {
         outputZoneId = zoneId;
         return this;
+    }
+
+    public int day() {
+        return instant.atZone(outputZoneId).getDayOfMonth();
+    }
+
+    public int month() {
+        return instant.atZone(outputZoneId).getMonthValue();
+    }
+
+    public int year() {
+        return instant.atZone(outputZoneId).getYear();
+    }
+
+    public int hour() {
+        return instant.atZone(outputZoneId).getHour();
+    }
+
+    public int minutes() {
+        return instant.atZone(outputZoneId).getMinute();
+    }
+
+    public int seconds() {
+        return instant.atZone(outputZoneId).getSecond();
     }
 }

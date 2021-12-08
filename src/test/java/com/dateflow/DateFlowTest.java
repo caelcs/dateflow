@@ -6,9 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.text.ParseException;
 import java.time.*;
-import java.time.format.FormatStyle;
 import java.util.Date;
-import java.util.Set;
 
 import static com.dateflow.DateFlow.TIME_ZONE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -501,6 +499,78 @@ class DateFlowTest {
         assertThat(result)
                 .isNotNull()
                 .isEqualTo("2021-12-04T22:35:46Z");
+    }
+
+    @Test
+    void shouldGetDay() {
+        //When
+        var result = DateFlow
+                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
+                .day();
+
+        //Then
+        assertThat(result)
+                .isEqualTo(4);
+    }
+
+    @Test
+    void shouldGetMonth() {
+        //When
+        var result = DateFlow
+                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
+                .month();
+
+        //Then
+        assertThat(result)
+                .isEqualTo(12);
+    }
+
+    @Test
+    void shouldGetYear() {
+        //When
+        var result = DateFlow
+                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
+                .year();
+
+        //Then
+        assertThat(result)
+                .isEqualTo(2021);
+    }
+
+    @Test
+    void shouldGetHour() {
+        //When
+        var result = DateFlow
+                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
+                .hour();
+
+        //Then
+        assertThat(result)
+                .isEqualTo(22);
+    }
+
+    @Test
+    void shouldGetMinute() {
+        //When
+        var result = DateFlow
+                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
+                .minutes();
+
+        //Then
+        assertThat(result)
+                .isEqualTo(35);
+    }
+
+    @Test
+    void shouldGetSeconds() {
+        //When
+        var result = DateFlow
+                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
+                .seconds();
+
+        //Then
+        assertThat(result)
+                .isEqualTo(46);
     }
 
     private void assertBaseDateFlow(DateFlow dateFlow) {

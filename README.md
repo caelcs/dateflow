@@ -1,6 +1,50 @@
 # Dateflow
 
-This library provides a good flow api to deal with java Date.
+This library provides a fluent interface to deal with java Date utils.
+        
+## define the source date time from different classes.
+
+DateFlow
+    .now()
+    .fromMillis(long millis) 
+    .from(LocalDate localDate) 
+    .from(LocalDateTime localDateTime) 
+    .from(String date) 
+    .from(Date date) 
+
+## Reset time to 00:00:00 or 23:59:59:999
+
+    .resetTime() 
+    .resetTimeToLastSecondOfDay() 
+
+## Basic manipulation of the date time
+
+    .plusMonths(int months) 
+    .plusDays(int days) 
+    .plusMinutes(int minutes) 
+    .plusHours(int hours) 
+    .plusSeconds(int seconds) 
+    .minusMonths(int months) 
+    .minusMinutes(int minutes) 
+    .minusHours(int hours) 
+    .minusDays(int days) 
+
+## define export ZoneId to be use when you export date time
+
+    .zoneIdUTC() 
+    .zoneId(String zoneId)
+
+## exporting the datetime as
+
+    .asDate() 
+    .asLocalDate() 
+    .asLocalDateTime() 
+    .asString(String format) 
+    .day() 
+    .month() 
+    .hour() 
+    .minutes() 
+    .seconds() 
 
 ## Requirements:
 
