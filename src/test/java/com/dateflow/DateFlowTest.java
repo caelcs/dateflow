@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.time.*;
 import java.time.format.FormatStyle;
 import java.util.Date;
+import java.util.Set;
 
 import static com.dateflow.DateFlow.TIME_ZONE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -472,6 +473,34 @@ class DateFlowTest {
         assertThat(result)
                 .isNotNull()
                 .isEqualTo(expectedDate);
+    }
+
+    @Test
+    void shouldChangeTimeZone() {
+        //When
+        var result = DateFlow
+                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
+                .zoneId(ZoneId.of("Europe/Berlin"))
+                .asString(DateFlow.DATE_FORMAT);
+
+        //Then
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo("2021-12-04T23:35:46Z");
+    }
+
+    @Test
+    void shouldSetUTCTimeZone() {
+        //When
+        var result = DateFlow
+                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
+                .zoneIdUTC()
+                .asString(DateFlow.DATE_FORMAT);
+
+        //Then
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo("2021-12-04T22:35:46Z");
     }
 
     private void assertBaseDateFlow(DateFlow dateFlow) {

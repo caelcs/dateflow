@@ -16,10 +16,12 @@ public class DateFlow {
     ZoneId zoneId;
     Instant instant;
     TimeZone timeZone;
+    ZoneId outputZoneId;
 
     private DateFlow() {
         this.zoneId = ZoneId.of(TIME_ZONE);
         this.timeZone = TimeZone.getTimeZone(zoneId);
+        this.outputZoneId = ZoneId.of(TIME_ZONE);
         this.instant = Instant.now().atZone(zoneId).toInstant();
     }
 
@@ -179,21 +181,31 @@ public class DateFlow {
     }
 
     public Date asDate() {
-        return Date.from(instant);
+        return Date.from(instant.atZone(outputZoneId).toInstant());
     }
 
     public LocalDate asLocalDate() {
-        return LocalDate.ofInstant(instant, zoneId);
+        return LocalDate.ofInstant(instant, outputZoneId);
     }
 
     public LocalDateTime asLocalDateTime() {
-        return LocalDateTime.ofInstant(instant, zoneId);
+        return LocalDateTime.ofInstant(instant, outputZoneId);
     }
 
     public String asString(String format) {
         DateTimeFormatter formatter = DateTimeFormatter
                 .ofPattern(format)
-                .withZone(zoneId);;
+                .withZone(outputZoneId);
         return formatter.format(instant);
+    }
+
+    public DateFlow zoneId(ZoneId zoneId) {
+        outputZoneId = zoneId;
+        return this;
+    }
+
+    public DateFlow zoneIdUTC() {
+        outputZoneId = zoneId;
+        return this;
     }
 }
