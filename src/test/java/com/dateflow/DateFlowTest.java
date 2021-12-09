@@ -5,10 +5,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.text.ParseException;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Date;
 
-import static com.dateflow.DateFlow.TIME_ZONE;
+import static com.dateflow.Constants.TIME_ZONE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DateFlowTest {
@@ -16,12 +19,12 @@ class DateFlowTest {
     @Test
     void shouldCreateDateFromNow() {
         //When
-        var dateFlow = DateFlow.now();
+        var operationsFlow = DateFlow.now();
 
         //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
                 .isNotNull()
                 .isBeforeOrEqualTo(Instant.now());
     }
@@ -29,12 +32,12 @@ class DateFlowTest {
     @Test
     void shouldCreateDateFromLocalDate() {
         //When
-        var dateFlow = DateFlow.from(LocalDate.now());
+        var operationsFlow = DateFlow.from(LocalDate.now());
 
         //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
                 .isNotNull()
                 .isBeforeOrEqualTo(Instant.now());
     }
@@ -42,12 +45,12 @@ class DateFlowTest {
     @Test
     void shouldCreateDateFromLocalDateTime() {
         //When
-        var dateFlow = DateFlow.from(LocalDateTime.now());
+        var operationsFlow = DateFlow.from(LocalDateTime.now());
 
         //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
                 .isNotNull()
                 .isBeforeOrEqualTo(Instant.now());
     }
@@ -58,12 +61,12 @@ class DateFlowTest {
         var now = Instant.now();
 
         //When
-        var dateFlow = DateFlow.from(now);
+        var operationsFlow = DateFlow.from(now);
 
         //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
                 .isNotNull()
                 .isBeforeOrEqualTo(now);
     }
@@ -74,25 +77,25 @@ class DateFlowTest {
         var date = "2021-12-04T22:35:46Z";
 
         //When
-        var dateFlow = DateFlow.from(date);
+        var operationsFlow = DateFlow.from(date);
 
         //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
                 .isNotNull()
                 .satisfies(it -> {
-                    assertThat(it.atZone(dateFlow.zoneId).getYear())
+                    assertThat(it.atZone(operationsFlow.zoneId).getYear())
                             .isEqualTo(2021);
-                    assertThat(it.atZone(dateFlow.zoneId).getMonth())
+                    assertThat(it.atZone(operationsFlow.zoneId).getMonth())
                             .isEqualTo(Month.DECEMBER);
-                    assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
+                    assertThat(it.atZone(operationsFlow.zoneId).getDayOfMonth())
                             .isEqualTo(4);
-                    assertThat(it.atZone(dateFlow.zoneId).getHour())
+                    assertThat(it.atZone(operationsFlow.zoneId).getHour())
                             .isEqualTo(22);
-                    assertThat(it.atZone(dateFlow.zoneId).getMinute())
+                    assertThat(it.atZone(operationsFlow.zoneId).getMinute())
                             .isEqualTo(35);
-                    assertThat(it.atZone(dateFlow.zoneId).getSecond())
+                    assertThat(it.atZone(operationsFlow.zoneId).getSecond())
                             .isEqualTo(46);
                 });
     }
@@ -104,25 +107,25 @@ class DateFlowTest {
             "2021-12-04T22:35:46,yyyy-MM-dd'T'HH:mm:ss"})
     void shouldCreateDateFromStringAndFormat(String date, String dateFormat) throws ParseException {
         //When
-        var dateFlow = DateFlow.from(date, dateFormat);
+        var operationsFlow = DateFlow.from(date, dateFormat);
 
         //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
                 .isNotNull()
                 .satisfies(it -> {
-                    assertThat(it.atZone(dateFlow.zoneId).getYear())
+                    assertThat(it.atZone(operationsFlow.zoneId).getYear())
                             .isEqualTo(2021);
-                    assertThat(it.atZone(dateFlow.zoneId).getMonth())
+                    assertThat(it.atZone(operationsFlow.zoneId).getMonth())
                             .isEqualTo(Month.DECEMBER);
-                    assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
+                    assertThat(it.atZone(operationsFlow.zoneId).getDayOfMonth())
                             .isEqualTo(4);
-                    assertThat(it.atZone(dateFlow.zoneId).getHour())
+                    assertThat(it.atZone(operationsFlow.zoneId).getHour())
                             .isEqualTo(22);
-                    assertThat(it.atZone(dateFlow.zoneId).getMinute())
+                    assertThat(it.atZone(operationsFlow.zoneId).getMinute())
                             .isEqualTo(35);
-                    assertThat(it.atZone(dateFlow.zoneId).getSecond())
+                    assertThat(it.atZone(operationsFlow.zoneId).getSecond())
                             .isEqualTo(46);
                 });
     }
@@ -133,25 +136,25 @@ class DateFlowTest {
         var dateFormat = "yyyy-MM-dd";
 
         //When
-        var dateFlow = DateFlow.from(date, dateFormat);
+        var operationsFlow = DateFlow.from(date, dateFormat);
 
         //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
                 .isNotNull()
                 .satisfies(it -> {
-                    assertThat(it.atZone(dateFlow.zoneId).getYear())
+                    assertThat(it.atZone(operationsFlow.zoneId).getYear())
                             .isEqualTo(2021);
-                    assertThat(it.atZone(dateFlow.zoneId).getMonth())
+                    assertThat(it.atZone(operationsFlow.zoneId).getMonth())
                             .isEqualTo(Month.DECEMBER);
-                    assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
+                    assertThat(it.atZone(operationsFlow.zoneId).getDayOfMonth())
                             .isEqualTo(4);
-                    assertThat(it.atZone(dateFlow.zoneId).getHour())
+                    assertThat(it.atZone(operationsFlow.zoneId).getHour())
                             .isZero();
-                    assertThat(it.atZone(dateFlow.zoneId).getMinute())
+                    assertThat(it.atZone(operationsFlow.zoneId).getMinute())
                             .isZero();
-                    assertThat(it.atZone(dateFlow.zoneId).getSecond())
+                    assertThat(it.atZone(operationsFlow.zoneId).getSecond())
                             .isZero();
                 });
     }
@@ -162,25 +165,25 @@ class DateFlowTest {
         var dateFormat = "yyyy-MM-dd";
 
         //When
-        var dateFlow = DateFlow.from(date, dateFormat);
+        var operationsFlow = DateFlow.from(date, dateFormat);
 
         //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
                 .isNotNull()
                 .satisfies(it -> {
-                    assertThat(it.atZone(dateFlow.zoneId).getYear())
+                    assertThat(it.atZone(operationsFlow.zoneId).getYear())
                             .isEqualTo(2021);
-                    assertThat(it.atZone(dateFlow.zoneId).getMonth())
+                    assertThat(it.atZone(operationsFlow.zoneId).getMonth())
                             .isEqualTo(Month.DECEMBER);
-                    assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
+                    assertThat(it.atZone(operationsFlow.zoneId).getDayOfMonth())
                             .isEqualTo(4);
-                    assertThat(it.atZone(dateFlow.zoneId).getHour())
+                    assertThat(it.atZone(operationsFlow.zoneId).getHour())
                             .isZero();
-                    assertThat(it.atZone(dateFlow.zoneId).getMinute())
+                    assertThat(it.atZone(operationsFlow.zoneId).getMinute())
                             .isZero();
-                    assertThat(it.atZone(dateFlow.zoneId).getSecond())
+                    assertThat(it.atZone(operationsFlow.zoneId).getSecond())
                             .isZero();
                 });
     }
@@ -189,12 +192,12 @@ class DateFlowTest {
     @Test
     void shouldCreateDateFromDate() {
         //When
-        var dateFlow = DateFlow.from(new Date());
+        var operationsFlow = DateFlow.from(new Date());
 
         //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
                 .isNotNull()
                 .isBeforeOrEqualTo(Instant.now());
     }
@@ -202,381 +205,20 @@ class DateFlowTest {
     @Test
     void shouldCreateDateFromMillis() {
         //When
-        var dateFlow = DateFlow.from(Instant.now().toEpochMilli());
+        var operationsFlow = DateFlow.from(Instant.now().toEpochMilli());
 
         //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
                 .isNotNull()
                 .isBeforeOrEqualTo(Instant.now());
     }
 
-    @Test
-    void shouldResetMidNightTime() {
-        //When
-        var dateFlow = DateFlow.now()
-                .resetMidnightTime();
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it -> {
-                    assertThat(it.atZone(ZoneOffset.UTC).getSecond()).isZero();
-                    assertThat(it.atZone(ZoneOffset.UTC).getMinute()).isZero();
-                    assertThat(it.atZone(ZoneOffset.UTC).getHour()).isZero();
-                });
-    }
-
-    @Test
-    void shouldResetTimeToLastSecondOfDay() {
-        //When
-        var dateFlow = DateFlow.now()
-                .resetTimeToLastSecondOfDay();
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it -> {
-                    assertThat(it.atZone(ZoneOffset.UTC).getSecond()).isEqualTo(59);
-                    assertThat(it.atZone(ZoneOffset.UTC).getMinute()).isEqualTo(59);
-                    assertThat(it.atZone(ZoneOffset.UTC).getHour()).isEqualTo(23);
-                });
-    }
-
-    @Test
-    void shouldAddMonths() {
-        //When
-        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .plusMonths(2);
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it ->
-                    assertThat(it.atZone(dateFlow.zoneId).getMonth())
-                            .isEqualTo(Month.FEBRUARY));
-    }
-
-    @Test
-    void shouldAddDays() {
-        //When
-        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .plusDays(2);
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it ->
-                        assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
-                                .isEqualTo(6));
-    }
-
-    @Test
-    void shouldAddMinutes() {
-        //When
-        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .plusMinutes(2);
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it ->
-                        assertThat(it.atZone(dateFlow.zoneId).getMinute())
-                                .isEqualTo(37));
-    }
-
-    @Test
-    void shouldAddHours() {
-        //When
-        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .plusHours(2);
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it ->
-                        assertThat(it.atZone(dateFlow.zoneId).getHour())
-                                .isZero());
-    }
-
-    @Test
-    void shouldAddSeconds() {
-        //When
-        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .plusSeconds(2);
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it ->
-                        assertThat(it.atZone(dateFlow.zoneId).getSecond())
-                                .isEqualTo(48));
-    }
-
-    @Test
-    void shouldSubtractSeconds() {
-        //When
-        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .minusSeconds(2);
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it ->
-                        assertThat(it.atZone(dateFlow.zoneId).getSecond())
-                                .isEqualTo(44));
-    }
-
-    @Test
-    void shouldSubtractMinutes() {
-        //When
-        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .minusMinutes(2);
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it ->
-                        assertThat(it.atZone(dateFlow.zoneId).getMinute())
-                                .isEqualTo(33));
-    }
-
-    @Test
-    void shouldSubtractHours() {
-        //When
-        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .minusHours(2);
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it ->
-                        assertThat(it.atZone(dateFlow.zoneId).getHour())
-                                .isEqualTo(20));
-    }
-
-    @Test
-    void shouldSubtractDays() {
-        //When
-        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .minusDays(2);
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it ->
-                        assertThat(it.atZone(dateFlow.zoneId).getDayOfMonth())
-                                .isEqualTo(2));
-    }
-
-    @Test
-    void shouldSubtractMonths() {
-        //When
-        var dateFlow = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .minusMonths(2);
-
-        //Then
-        assertThat(dateFlow).isNotNull();
-        assertBaseDateFlow(dateFlow);
-        assertThat(dateFlow.instant)
-                .isNotNull()
-                .satisfies(it ->
-                        assertThat(it.atZone(dateFlow.zoneId).getMonth())
-                                .isEqualTo(Month.OCTOBER));
-    }
-
-    @Test
-    void shouldReturnDate() {
-        //When
-        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).asDate();
-
-        //Then
-        assertThat(result)
-                .isNotNull()
-                .hasDayOfMonth(4)
-                .hasMonth(12)
-                .hasYear(2021)
-                .hasHourOfDay(22)
-                .hasMinute(35)
-                .hasSecond(46);
-    }
-
-    @Test
-    void shouldReturnLocalDate() {
-        //When
-        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).asLocalDate();
-
-        //Then
-        assertThat(result)
-                .isNotNull()
-                .satisfies(it -> {
-                    assertThat(it.getDayOfMonth()).isEqualTo(4);
-                    assertThat(it.getMonthValue()).isEqualTo(12);
-                    assertThat(it.getYear()).isEqualTo(2021);
-                });
-    }
-
-    @Test
-    void shouldReturnLocalDateTime() {
-        //When
-        var result = DateFlow.from(Instant.parse("2021-12-04T22:35:46.786Z")).asLocalDateTime();
-
-        //Then
-        assertThat(result)
-                .isNotNull()
-                .satisfies(it -> {
-                    assertThat(it.getDayOfMonth()).isEqualTo(4);
-                    assertThat(it.getMonthValue()).isEqualTo(12);
-                    assertThat(it.getYear()).isEqualTo(2021);
-                    assertThat(it.getHour()).isEqualTo(22);
-                    assertThat(it.getMinute()).isEqualTo(35);
-                    assertThat(it.getSecond()).isEqualTo(46);
-                });
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-            "uuuu-MM-dd,2021-12-04"
-            })
-    void shouldReturnString(String format, String expectedDate) {
-        //When
-        var result = DateFlow
-                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .asString(format);
-
-        //Then
-        assertThat(result)
-                .isNotNull()
-                .isEqualTo(expectedDate);
-    }
-
-    @Test
-    void shouldChangeTimeZone() {
-        //When
-        var result = DateFlow
-                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .zoneId(ZoneId.of("Europe/Berlin"))
-                .asString(DateFlow.DATE_FORMAT);
-
-        //Then
-        assertThat(result)
-                .isNotNull()
-                .isEqualTo("2021-12-04T23:35:46Z");
-    }
-
-    @Test
-    void shouldSetUTCTimeZone() {
-        //When
-        var result = DateFlow
-                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .zoneIdUTC()
-                .asString(DateFlow.DATE_FORMAT);
-
-        //Then
-        assertThat(result)
-                .isNotNull()
-                .isEqualTo("2021-12-04T22:35:46Z");
-    }
-
-    @Test
-    void shouldGetDay() {
-        //When
-        var result = DateFlow
-                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .day();
-
-        //Then
-        assertThat(result)
-                .isEqualTo(4);
-    }
-
-    @Test
-    void shouldGetMonth() {
-        //When
-        var result = DateFlow
-                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .month();
-
-        //Then
-        assertThat(result)
-                .isEqualTo(12);
-    }
-
-    @Test
-    void shouldGetYear() {
-        //When
-        var result = DateFlow
-                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .year();
-
-        //Then
-        assertThat(result)
-                .isEqualTo(2021);
-    }
-
-    @Test
-    void shouldGetHour() {
-        //When
-        var result = DateFlow
-                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .hour();
-
-        //Then
-        assertThat(result)
-                .isEqualTo(22);
-    }
-
-    @Test
-    void shouldGetMinute() {
-        //When
-        var result = DateFlow
-                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .minutes();
-
-        //Then
-        assertThat(result)
-                .isEqualTo(35);
-    }
-
-    @Test
-    void shouldGetSeconds() {
-        //When
-        var result = DateFlow
-                .from(Instant.parse("2021-12-04T22:35:46.786Z"))
-                .seconds();
-
-        //Then
-        assertThat(result)
-                .isEqualTo(46);
-    }
-
-    private void assertBaseDateFlow(DateFlow dateFlow) {
-        assertThat(dateFlow.zoneId).isNotNull()
+    static void assertBaseDateFlow(OperationsFlow operationsFlow) {
+        assertThat(operationsFlow.zoneId).isNotNull()
                 .satisfies(it -> assertThat(it.getId()).isEqualTo(TIME_ZONE));
-        assertThat(dateFlow.timeZone).isNotNull()
+        assertThat(operationsFlow.timeZone).isNotNull()
                 .satisfies(it -> assertThat(it.toZoneId().getId()).isEqualTo(TIME_ZONE));
     }
 }
