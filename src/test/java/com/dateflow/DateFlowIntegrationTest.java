@@ -19,8 +19,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse("2021-12-09T11:33:43.715281Z");
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .zoneId(ZoneId.of("Asia/Tokyo"))
                 .as().localDateTime();
 
@@ -35,8 +35,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse("2021-12-09T11:33:43.715281Z");
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .as().localDateTime();
 
         //Then
@@ -50,8 +50,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse("2021-12-09T11:33:43.715281Z");
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .zoneId(ZoneId.of("Asia/Tokyo"))
                 .as().date();
 
@@ -66,8 +66,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse("2021-12-09T11:33:43.715281Z");
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .as().date();
 
         //Then
@@ -81,8 +81,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse("2021-12-09T23:33:43.715281Z");
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .zoneId(ZoneId.of("Asia/Tokyo"))
                 .as().localDate();
 
@@ -97,8 +97,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse("2021-12-09T11:33:43.715281Z");
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .as().localDate();
 
         //Then
@@ -112,8 +112,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse("2021-12-09T23:33:43.715281Z");
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .zoneId(ZoneId.of("Asia/Tokyo"))
                 .as().string(DATE_FORMAT);
 
@@ -128,8 +128,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse("2021-12-09T11:33:43.715281Z");
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .as().string(DATE_FORMAT);
 
         //Then
@@ -144,8 +144,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse(date);
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .zoneId(ZoneId.of("Asia/Tokyo"))
                 .as().day();
 
@@ -161,8 +161,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse(date);
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .zoneId(ZoneId.of("Asia/Tokyo"))
                 .as().month();
 
@@ -178,8 +178,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse(date);
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .zoneId(ZoneId.of("Asia/Tokyo"))
                 .as().year();
 
@@ -195,8 +195,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse(date);
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .zoneId(ZoneId.of("Asia/Tokyo"))
                 .as().hour();
 
@@ -212,8 +212,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse(date);
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .zoneId(ZoneId.of("Asia/Tokyo"))
                 .as().minutes();
 
@@ -229,8 +229,8 @@ class DateFlowIntegrationTest {
         var instant = Instant.parse(date);
 
         //When
-        var result = DateFlow.
-                from(instant)
+        var result = DateFlow
+                .from(instant)
                 .zoneId(ZoneId.of("Asia/Tokyo"))
                 .as().seconds();
 
