@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.TimeZone;
@@ -14,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TransformerFlowTest {
 
     @Test
-    void shouldReturnDate() {
+    void shouldReturnDate() throws ParseException {
         //Given
         ZoneId zoneId = ZoneId.of(TIME_ZONE);
         String currentDate = "2021-12-04T22:35:46.786Z";
@@ -31,6 +32,20 @@ class TransformerFlowTest {
                 .hasHourOfDay(22)
                 .hasMinute(35)
                 .hasSecond(46);
+    }
+
+    @Test
+    void shouldReturnInstant() {
+        //Given
+        ZoneId zoneId = ZoneId.of("Asia/Tokyo");
+        String currentDate = "2021-12-04T22:35:46.786Z";
+
+        //When
+        var result = getTransformerFlow(zoneId, currentDate).instant();
+
+        //Then
+        assertThat(result)
+                .isNotNull();
     }
 
     @Test
