@@ -74,7 +74,7 @@ class DateFlowTest {
     @Test
     void shouldCreateDateFromString() throws ParseException {
         //Given
-        var date = "2021-12-04T22:35:46Z";
+        var date = "2021-12-04T22:35:46.712Z";
 
         //When
         var operationsFlow = DateFlow.from(date);

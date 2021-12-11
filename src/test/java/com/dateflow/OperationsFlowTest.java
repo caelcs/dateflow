@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 import java.time.Month;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 import static com.dateflow.Constants.TIME_ZONE;
@@ -207,31 +206,6 @@ class OperationsFlowTest {
                 .satisfies(it ->
                         assertThat(it.atZone(operationsFlow.zoneId).getMonth())
                                 .isEqualTo(Month.OCTOBER));
-    }
-
-    @Test
-    void shouldChangeTimeZone() {
-        //Given
-        ZoneId newZoneId = ZoneId.of("Europe/Berlin");
-
-        //When
-        var result = getOperationsFlow()
-                .zoneId(newZoneId);
-
-        //Then
-        assertThat(result).isNotNull();
-        assertThat(result.outputZoneId).isEqualTo(newZoneId);
-    }
-
-    @Test
-    void shouldSetUTCTimeZone() {
-        //When
-        var result = getOperationsFlow()
-                .zoneIdUTC();
-
-        //Then
-        assertThat(result).isNotNull();
-        assertThat(result.outputZoneId.toString()).hasToString("UTC");
     }
 
     @Test

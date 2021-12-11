@@ -192,7 +192,7 @@ class TransformerFlowTest {
     }
 
     private TransformerFlow getTransformerFlow(ZoneId zoneId, String currentDate) {
-        return new TransformerFlow(zoneId, Instant.parse(currentDate), TimeZone.getTimeZone(zoneId), zoneId);
+        return new TransformerFlow(zoneId, Instant.parse(currentDate), TimeZone.getTimeZone(zoneId));
     }
 
 }

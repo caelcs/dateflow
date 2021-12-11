@@ -21,6 +21,7 @@ public class DateFlow {
         return new OperationsFlow();
     }
 
+    //TODO: support scenario date + zone so it can convert back to UTC internally and operate
     public static OperationsFlow from(LocalDate localDate) {
         var operationsFlow = new OperationsFlow();
         operationsFlow.instant = localDate
@@ -30,6 +31,7 @@ public class DateFlow {
         return operationsFlow;
     }
 
+    //TODO: support scenario date + zone so it can convert back to UTC internally and operate
     public static OperationsFlow from(LocalDateTime localDateTime) {
         var operationsFlow = new OperationsFlow();
         operationsFlow.instant = localDateTime
@@ -38,6 +40,7 @@ public class DateFlow {
         return operationsFlow;
     }
 
+    //TODO: support scenario date + zone so it can convert back to UTC internally and operate
     public static OperationsFlow from(Date date) {
         var operationsFlow = new OperationsFlow();
         operationsFlow.instant = ZonedDateTime

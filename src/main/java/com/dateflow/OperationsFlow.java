@@ -12,12 +12,10 @@ public class OperationsFlow {
     ZoneId zoneId;
     Instant instant;
     TimeZone timeZone;
-    ZoneId outputZoneId;
 
     public OperationsFlow() {
         this.zoneId = ZoneId.of(TIME_ZONE);
         this.timeZone = TimeZone.getTimeZone(zoneId);
-        this.outputZoneId = ZoneId.of(TIME_ZONE);
         this.instant = Instant.now().atZone(zoneId).toInstant();
     }
 
@@ -118,17 +116,7 @@ public class OperationsFlow {
         return this;
     }
 
-    public OperationsFlow zoneId(ZoneId newZoneId) {
-        outputZoneId = newZoneId;
-        return this;
-    }
-
-    public OperationsFlow zoneIdUTC() {
-        outputZoneId = zoneId;
-        return this;
-    }
-
     public TransformerFlow as() {
-        return new TransformerFlow(zoneId, instant, timeZone, outputZoneId);
+        return new TransformerFlow(zoneId, instant, timeZone);
     }
 }

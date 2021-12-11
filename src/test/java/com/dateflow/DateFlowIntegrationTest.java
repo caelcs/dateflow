@@ -21,8 +21,9 @@ class DateFlowIntegrationTest {
         //When
         var result = DateFlow
                 .from(instant)
+                .as()
                 .zoneId(ZoneId.of("Asia/Tokyo"))
-                .as().localDateTime();
+                .localDateTime();
 
         //Then
         assertThat(result)
@@ -52,8 +53,9 @@ class DateFlowIntegrationTest {
         //When
         var result = DateFlow
                 .from(instant)
+                .as()
                 .zoneId(ZoneId.of("Asia/Tokyo"))
-                .as().date();
+                .date();
 
         //Then
         assertThat(result)
@@ -83,8 +85,9 @@ class DateFlowIntegrationTest {
         //When
         var result = DateFlow
                 .from(instant)
+                .as()
                 .zoneId(ZoneId.of("Asia/Tokyo"))
-                .as().localDate();
+                .localDate();
 
         //Then
         assertThat(result)
@@ -114,8 +117,9 @@ class DateFlowIntegrationTest {
         //When
         var result = DateFlow
                 .from(instant)
+                .as()
                 .zoneId(ZoneId.of("Asia/Tokyo"))
-                .as().string(DATE_FORMAT);
+                .string(DATE_FORMAT);
 
         //Then
         assertThat(result)
@@ -146,8 +150,9 @@ class DateFlowIntegrationTest {
         //When
         var result = DateFlow
                 .from(instant)
+                .as()
                 .zoneId(ZoneId.of("Asia/Tokyo"))
-                .as().day();
+                .day();
 
         //Then
         assertThat(result)
@@ -163,8 +168,9 @@ class DateFlowIntegrationTest {
         //When
         var result = DateFlow
                 .from(instant)
+                .as()
                 .zoneId(ZoneId.of("Asia/Tokyo"))
-                .as().month();
+                .month();
 
         //Then
         assertThat(result)
@@ -180,8 +186,9 @@ class DateFlowIntegrationTest {
         //When
         var result = DateFlow
                 .from(instant)
+                .as()
                 .zoneId(ZoneId.of("Asia/Tokyo"))
-                .as().year();
+                .year();
 
         //Then
         assertThat(result)
@@ -197,8 +204,9 @@ class DateFlowIntegrationTest {
         //When
         var result = DateFlow
                 .from(instant)
+                .as()
                 .zoneId(ZoneId.of("Asia/Tokyo"))
-                .as().hour();
+                .hour();
 
         //Then
         assertThat(result)
@@ -214,8 +222,9 @@ class DateFlowIntegrationTest {
         //When
         var result = DateFlow
                 .from(instant)
+                .as()
                 .zoneId(ZoneId.of("Asia/Tokyo"))
-                .as().minutes();
+                .minutes();
 
         //Then
         assertThat(result)
@@ -231,8 +240,9 @@ class DateFlowIntegrationTest {
         //When
         var result = DateFlow
                 .from(instant)
+                .as()
                 .zoneId(ZoneId.of("Asia/Tokyo"))
-                .as().seconds();
+                .seconds();
 
         //Then
         assertThat(result)

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import static com.dateflow.Constants.DATE_FORMAT;
+import static com.dateflow.Constants.TIME_ZONE;
 
 public class TransformerFlow {
 
@@ -19,11 +20,16 @@ public class TransformerFlow {
     TimeZone timeZone;
     ZoneId outputZoneId;
 
-    public TransformerFlow(ZoneId zoneId, Instant instant, TimeZone timeZone, ZoneId outputZoneId) {
+    public TransformerFlow(ZoneId zoneId, Instant instant, TimeZone timeZone) {
         this.zoneId = zoneId;
         this.instant = instant;
         this.timeZone = timeZone;
-        this.outputZoneId = outputZoneId;
+        this.outputZoneId = ZoneId.of(TIME_ZONE);
+    }
+
+    public TransformerFlow zoneId(ZoneId newZoneId) {
+        outputZoneId = newZoneId;
+        return this;
     }
 
     public Date date() throws ParseException {
