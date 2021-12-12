@@ -5,12 +5,14 @@ DateFlow is a fluent interface to deal with java Date utils methods that you wou
 The motivation comes from projects where you are deeply constraint to the use of Date or String and you are 
 dealing with multiple regions, no matter the reason behind it.
 
-DateFlow helps you to convert local date/datetime, string, date among other types, some of them bind to 
-timezones. 
+DateFlow helps you to convert a representation of date/datetime some of them bind to 
+timezones.
+
 By passing the source representation of your Date/time, Once this has been set up, DateFlow use 
 this information to create an Instant (UTC) representation that will be used
 later on to apply different operations and finally generate a representation as UTC or 
 the timezone of your preference.
+
 As I said normally you would not need something like this in your project but if you are bind to Date class or 
 format based on String you might find DateFlow helpful.         
 
