@@ -24,15 +24,11 @@ format based on String you might find DateFlow helpful.
 
 `from(LocalDate localDate)`: create Instant from local date (no time required because is not bind to that).
 
-`from(LocalDateTime localDateTime, ZoneId zoneId)`: Create Instant from LocalDateTime, and ZoneId needs to be provided so can it can be transformed to UTC internally.
-
-`from(String date, String dateFormat, ZoneId zoneId)`: Create Instant from String, and ZoneId and format needs to be provided so can it can be transformed to UTC internally.
-
 `from(LocalDateTime localDateTime)`: Create Instant from LocalDateTime, using system default ZoneId.
 
 `from(String date, String dateFormat)`: Create Instant from String, using system default ZoneId.
 
-`from(Date date)`: Create Instant from Date, the assumption here is that the date time is already in UTC.
+`from(Date date)`: Create Instant from Date, using the default ZoneId.
 
 ## Reset time to 00:00:00 or 23:59:59:999
 ```

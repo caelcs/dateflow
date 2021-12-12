@@ -15,7 +15,7 @@ public class DateFlow {
         return new OperationsFlow();
     }
 
-    public static OperationsFlow from(LocalDateTime localDateTime, ZoneId zoneId) {
+    private static OperationsFlow from(LocalDateTime localDateTime, ZoneId zoneId) {
         var operationsFlow = new OperationsFlow();
         operationsFlow.instant = localDateTime
                 .atZone(zoneId)
@@ -25,7 +25,7 @@ public class DateFlow {
         return operationsFlow;
     }
 
-    public static OperationsFlow from(String date, String dateFormat, ZoneId zoneId) throws ParseException {
+    private static OperationsFlow from(String date, String dateFormat, ZoneId zoneId) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat(dateFormat);
         format.setTimeZone(TimeZone.getTimeZone(zoneId.getId()));
         format.setLenient(false);
