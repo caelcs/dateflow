@@ -27,7 +27,7 @@ public class OperationsFlow {
         return this;
     }
 
-    public OperationsFlow resetTimeToLastSecondOfDay() {
+    public OperationsFlow resetToLastMilliOfDay() {
         instant = instant.atZone(zoneId)
                 .withHour(23)
                 .withMinute(59)

@@ -34,7 +34,7 @@ class OperationsFlowTest {
     void shouldResetTimeToLastSecondOfDay() {
         //When
         var operationsFlow = new OperationsFlow()
-                .resetTimeToLastSecondOfDay();
+                .resetToLastMilliOfDay();
 
         //Then
         assertThat(operationsFlow).isNotNull();
