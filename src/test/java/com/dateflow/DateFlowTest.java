@@ -7,11 +7,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junitpioneer.jupiter.DefaultTimeZone;
 
+import java.sql.Date;
 import java.text.ParseException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.ZoneId;
+import java.time.*;
 
 import static com.dateflow.Constants.TIME_ZONE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,6 +49,19 @@ class DateFlowTest {
     void shouldCreateDateFromMillis() {
         //When
         var operationsFlow = DateFlow.from(Instant.now().toEpochMilli());
+
+        //Then
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
+                .isNotNull()
+                .isBeforeOrEqualTo(Instant.now());
+    }
+
+    @Test
+    void shouldCreateDateFromLocal() {
+        //When
+        var operationsFlow = DateFlow.from(LocalDate.now());
 
         //Then
         assertThat(operationsFlow).isNotNull();
@@ -161,6 +172,28 @@ class DateFlowTest {
     @DisplayName("transforming to UTC assuming the date is default zone")
     @DefaultTimeZone("Australia/Sydney")
     class DefaultZoneToUTCTest {
+
+        @Test
+        void shouldCreateDateFromDate() {
+            //When
+            Instant now = Instant.now();
+            var date = Date.from(now);
+            var operationsFlow = DateFlow.from(date);
+
+            //Then
+            assertThat(operationsFlow).isNotNull();
+            assertBaseDateFlow(operationsFlow);
+            assertThat(operationsFlow.instant)
+                    .isNotNull()
+                    .satisfies(e -> {
+                        assertThat(e.atZone(operationsFlow.zoneId).getYear()).isEqualTo(now.atZone(operationsFlow.zoneId).getYear());
+                        assertThat(e.atZone(operationsFlow.zoneId).getMonth()).isEqualTo(now.atZone(operationsFlow.zoneId).getMonth());
+                        assertThat(e.atZone(operationsFlow.zoneId).getDayOfMonth()).isEqualTo(now.atZone(operationsFlow.zoneId).getDayOfMonth());
+                        assertThat(e.atZone(operationsFlow.zoneId).getHour()).isEqualTo(now.atZone(operationsFlow.zoneId).getHour());
+                        assertThat(e.atZone(operationsFlow.zoneId).getMinute()).isEqualTo(now.atZone(operationsFlow.zoneId).getMinute());
+                        assertThat(e.atZone(operationsFlow.zoneId).getSecond()).isEqualTo(now.atZone(operationsFlow.zoneId).getSecond());
+                    });
+        }
 
         @Test
         void shouldCreateDateFromLocalDateTime() {
