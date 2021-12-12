@@ -12,57 +12,56 @@ format based on String you might find DateFlow helpful.
 
 ## define the source date time from different classes.
 
-```java```
-DateFlow
-    .now() (create Instant from current date time)
-    .fromMillis(long millis) (create Instant from epoc milliseconds)
-    .from(LocalDate localDate) (create Instant from local date (no time required because is not bind to that))
-    .from(LocalDateTime localDateTime, ZoneId zoneId) (Create Instant from LocalDateTime, and ZoneId needs to be provided so can it can be transformed to UTC internally)
-    .from(String date, String dateFormat, ZoneId zoneId) (Create Instant from String, and ZoneId and format needs to be provided so can it can be transformed to UTC internally)
-    .from(LocalDateTime localDateTime) (Create Instant from LocalDateTime, using system default ZoneId)
-    .from(String date, String dateFormat) (Create Instant from String, using system default ZoneId)
-    .fromUTC(Date date) (Create Instant from Date, the assumption here is that the date time is already in UTC)
-    .fromUTC(String date, String dateFormat) (Create Instant from String, format needs to be provided and the assumption here is that the date time is already in UTC)
-    .fromUTC(String date) (Create Instant from Date, the assumption here is that the date time is already in UTC and using a default datetime format)
-    .fromUTC(LocalDateTime dateTime) (Create Instant from LocalDateTime, the assumption here is that the date time is already in UTC)
-    .fromUTC(LocalDate localDate) (Create Instant from Date, the assumption here is that the date time is already in UTC)
-```java```
+`now()`: create Instant from current date time
+`fromMillis(long millis)`:create Instant from epoc milliseconds
+`from(LocalDate localDate)`: create Instant from local date (no time required because is not bind to that)
+`from(LocalDateTime localDateTime, ZoneId zoneId)`: Create Instant from LocalDateTime, and ZoneId needs to be provided so can it can be transformed to UTC internally
+`from(String date, String dateFormat, ZoneId zoneId)`: Create Instant from String, and ZoneId and format needs to be provided so can it can be transformed to UTC internally
+`from(LocalDateTime localDateTime)`: Create Instant from LocalDateTime, using system default ZoneId
+`from(String date, String dateFormat)`: Create Instant from String, using system default ZoneId
+`fromUTC(Date date)`: Create Instant from Date, the assumption here is that the date time is already in UTC
+`fromUTC(String date, String dateFormat)`: Create Instant from String, format needs to be provided and the assumption here is that the date time is already in UTC
+`fromUTC(String date)`: Create Instant from Date, the assumption here is that the date time is already in UTC and using a default datetime format
+`fromUTC(LocalDateTime dateTime)`: Create Instant from LocalDateTime, the assumption here is that the date time is already in UTC
+`fromUTC(LocalDate localDate)`: Create Instant from Date, the assumption here is that the date time is already in UTC
 
 ## Reset time to 00:00:00 or 23:59:59:999
-```java```
-    .resetTime() 
-    .resetTimeToLastSecondOfDay()
-```java```
-
+```
+.resetTime()
+.resetTimeToLastSecondOfDay()
+```
 ## Basic manipulation of the date time
-```java```
-    .plusMonths(int months) 
-    .plusDays(int days) 
-    .plusMinutes(int minutes) 
-    .plusHours(int hours) 
-    .plusSeconds(int seconds) 
-    .minusMonths(int months) 
-    .minusMinutes(int minutes) 
-    .minusHours(int hours) 
-    .minusDays(int days)
-```java```
+```
+.plusMonths(int months)
+.plusDays(int days)
+.plusMinutes(int minutes)
+.plusHours(int hours)
+.plusSeconds(int seconds)
+.minusMonths(int months)
+.minusMinutes(int minutes)
+.minusHours(int hours)
+.minusDays(int days)
+```
 ## exporting the datetime as
-```java```
-    .as()
-        .date() 
-        .localDate() 
-        .localDateTime() 
-        .string(String format) 
-        .day() 
-        .month() 
-        .hour() 
-        .minutes() 
-        .seconds()
-```java```
+```
+.as()
+.date()
+.localDate()
+.localDateTime()
+.string(String format)
+.day()
+.month()
+.hour()
+.minutes()
+.seconds()
+```
+
 ### define export ZoneId to be use when you export date time
-    .as()
-        .zoneIdUTC() 
-        .zoneId(String zoneId)
+```
+.as()
+.zoneIdUTC()
+.zoneId(String zoneId)
+```
 
 ## Requirements:
 
