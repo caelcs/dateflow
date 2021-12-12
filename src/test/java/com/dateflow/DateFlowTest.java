@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junitpioneer.jupiter.DefaultTimeZone;
 
 import java.text.ParseException;
 import java.time.*;
 import java.util.Date;
-import java.util.TimeZone;
 
 import static com.dateflow.Constants.TIME_ZONE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,7 +22,7 @@ class DateFlowTest {
         var now = Instant.now();
 
         //When
-        var operationsFlow = DateFlow.from(now);
+        var operationsFlow = DateFlow.fromUTC(now);
 
         //Then
         assertThat(operationsFlow).isNotNull();
@@ -45,9 +45,22 @@ class DateFlowTest {
                 .isBeforeOrEqualTo(Instant.now());
     }
 
+    @Test
+    void shouldCreateDateFromMillis() {
+        //When
+        var operationsFlow = DateFlow.fromUTC(Instant.now().toEpochMilli());
+
+        //Then
+        assertThat(operationsFlow).isNotNull();
+        assertBaseDateFlow(operationsFlow);
+        assertThat(operationsFlow.instant)
+                .isNotNull()
+                .isBeforeOrEqualTo(Instant.now());
+    }
+
     @Nested
     @DisplayName("date is UTC and no transformation to specific time is required")
-    class NoTransformationToUTCTest {
+    class UTCToUTCTest {
 
         @Test
         void shouldCreateDateFromLocalDate() {
@@ -177,29 +190,7 @@ class DateFlowTest {
 
     @Nested
     @DisplayName("transforming to UTC assuming the date is Not UTC")
-    class TransformingToUTCTest {
-
-        @Test
-        void shouldCreateDateFromLocalDate() {
-            //When
-            var localDate = LocalDate.now();
-            var operationsFlow = DateFlow
-                    .from(localDate);
-
-            //Then
-            assertThat(operationsFlow).isNotNull();
-            assertBaseDateFlow(operationsFlow);
-            assertThat(operationsFlow.instant)
-                    .isNotNull()
-                    .satisfies(e -> {
-                        assertThat(e.atZone(operationsFlow.zoneId).getYear()).isEqualTo(localDate.getYear());
-                        assertThat(e.atZone(operationsFlow.zoneId).getMonth()).isEqualTo(localDate.getMonth());
-                        assertThat(e.atZone(operationsFlow.zoneId).getDayOfMonth()).isEqualTo(localDate.getDayOfMonth());
-                        assertThat(e.atZone(operationsFlow.zoneId).getHour()).isZero();
-                        assertThat(e.atZone(operationsFlow.zoneId).getMinute()).isZero();
-                        assertThat(e.atZone(operationsFlow.zoneId).getSecond()).isZero();
-                    });
-        }
+    class NonUTCToUTCTest {
 
         @Test
         void shouldCreateDateFromLocalDateTime() {
@@ -222,26 +213,13 @@ class DateFlowTest {
                     });
         }
 
-        @Test
-        void shouldCreateDateFromMillis() {
-            //When
-            var operationsFlow = DateFlow.from(Instant.now().toEpochMilli());
-
-            //Then
-            assertThat(operationsFlow).isNotNull();
-            assertBaseDateFlow(operationsFlow);
-            assertThat(operationsFlow.instant)
-                    .isNotNull()
-                    .isBeforeOrEqualTo(Instant.now());
-        }
-
         @ParameterizedTest
         @CsvSource({
                 "2021-12-04T22:35:46,yyyy-MM-dd'T'HH:mm:ss",
                 "2021-12-04T22:35,yyyy-MM-dd'T'HH:mm"})
         void shouldCreateDateFromStringAndFormat(String date, String dateFormat) throws ParseException {
             //When
-            var operationsFlow = DateFlow.from(date, dateFormat, TimeZone.getTimeZone("Australia/Sydney"));
+            var operationsFlow = DateFlow.from(date, dateFormat, ZoneId.of("Australia/Sydney"));
             var localDateTime = LocalDateTime.parse(date);
             //Then
             assertThat(operationsFlow).isNotNull();
@@ -265,7 +243,7 @@ class DateFlowTest {
 
             //When
             var operationsFlow = DateFlow
-                    .from(date, dateFormat, TimeZone.getTimeZone("Australia/Sydney"));
+                    .from(date, dateFormat, ZoneId.of("Australia/Sydney"));
 
             //Then
             assertThat(operationsFlow).isNotNull();
@@ -289,7 +267,105 @@ class DateFlowTest {
 
             //When
             var operationsFlow = DateFlow
-                    .from(date, dateFormat, TimeZone.getTimeZone("Australia/Sydney"));
+                    .from(date, dateFormat, ZoneId.of("Australia/Sydney"));
+
+            //Then
+            assertThat(operationsFlow).isNotNull();
+            assertBaseDateFlow(operationsFlow);
+            assertThat(operationsFlow.instant)
+                    .isNotNull()
+                    .satisfies(it -> {
+                        assertThat(it.atZone(operationsFlow.zoneId).getYear()).isEqualTo(2021);
+                        assertThat(it.atZone(operationsFlow.zoneId).getMonth()).isEqualTo(Month.DECEMBER);
+                        assertThat(it.atZone(operationsFlow.zoneId).getDayOfMonth()).isEqualTo(4);
+                        assertThat(it.atZone(operationsFlow.zoneId).getHour()).isEqualTo(12);
+                        assertThat(it.atZone(operationsFlow.zoneId).getMinute()).isEqualTo(4);
+                        assertThat(it.atZone(operationsFlow.zoneId).getSecond()).isZero();
+                    });
+        }
+    }
+
+    @Nested
+    @DisplayName("transforming to UTC assuming the date is default zone")
+    @DefaultTimeZone("Australia/Sydney")
+    class DefaultZoneToUTCTest {
+
+        @Test
+        void shouldCreateDateFromLocalDateTime() {
+            //When
+            var localDateTime = LocalDateTime.parse("2021-12-04T22:35:46");
+            var operationsFlow = DateFlow.from(localDateTime);
+
+            //Then
+            assertThat(operationsFlow).isNotNull();
+            assertBaseDateFlow(operationsFlow);
+            assertThat(operationsFlow.instant)
+                    .isNotNull()
+                    .satisfies(e -> {
+                        assertThat(e.atZone(operationsFlow.zoneId).getYear()).isEqualTo(localDateTime.getYear());
+                        assertThat(e.atZone(operationsFlow.zoneId).getMonth()).isEqualTo(localDateTime.getMonth());
+                        assertThat(e.atZone(operationsFlow.zoneId).getDayOfMonth()).isEqualTo(localDateTime.getDayOfMonth());
+                        assertThat(e.atZone(operationsFlow.zoneId).getHour()).isEqualTo(11);
+                        assertThat(e.atZone(operationsFlow.zoneId).getMinute()).isEqualTo(localDateTime.getMinute());
+                        assertThat(e.atZone(operationsFlow.zoneId).getSecond()).isEqualTo(localDateTime.getSecond());
+                    });
+        }
+
+        @ParameterizedTest
+        @CsvSource({
+                "2021-12-04T22:35:46,yyyy-MM-dd'T'HH:mm:ss",
+                "2021-12-04T22:35,yyyy-MM-dd'T'HH:mm"})
+        void shouldCreateDateFromStringAndFormat(String date, String dateFormat) throws ParseException {
+            //When
+            var operationsFlow = DateFlow.from(date, dateFormat);
+            var localDateTime = LocalDateTime.parse(date);
+            //Then
+            assertThat(operationsFlow).isNotNull();
+            assertBaseDateFlow(operationsFlow);
+            assertThat(operationsFlow.instant)
+                    .isNotNull()
+                    .satisfies(it -> {
+                        assertThat(it.atZone(operationsFlow.zoneId).getYear()).isEqualTo(2021);
+                        assertThat(it.atZone(operationsFlow.zoneId).getMonth()).isEqualTo(Month.DECEMBER);
+                        assertThat(it.atZone(operationsFlow.zoneId).getDayOfMonth()).isEqualTo(4);
+                        assertThat(it.atZone(operationsFlow.zoneId).getHour()).isEqualTo(11);
+                        assertThat(it.atZone(operationsFlow.zoneId).getMinute()).isEqualTo(localDateTime.getMinute());
+                        assertThat(it.atZone(operationsFlow.zoneId).getSecond()).isEqualTo(localDateTime.getSecond());
+                    });
+        }
+
+        @Test
+        void shouldCreateDateFromStringAndDateFormat() throws ParseException {
+            var date = "2021-12-04";
+            var dateFormat = "yyyy-MM-dd";
+
+            //When
+            var operationsFlow = DateFlow
+                    .from(date, dateFormat);
+
+            //Then
+            assertThat(operationsFlow).isNotNull();
+            assertBaseDateFlow(operationsFlow);
+            assertThat(operationsFlow.instant)
+                    .isNotNull()
+                    .satisfies(it -> {
+                        assertThat(it.atZone(operationsFlow.zoneId).getYear()).isEqualTo(2021);
+                        assertThat(it.atZone(operationsFlow.zoneId).getMonth()).isEqualTo(Month.DECEMBER);
+                        assertThat(it.atZone(operationsFlow.zoneId).getDayOfMonth()).isEqualTo(3);
+                        assertThat(it.atZone(operationsFlow.zoneId).getHour()).isEqualTo(13);
+                        assertThat(it.atZone(operationsFlow.zoneId).getMinute()).isZero();
+                        assertThat(it.atZone(operationsFlow.zoneId).getSecond()).isZero();
+                    });
+        }
+
+        @Test
+        void shouldCreateDateFromStringAndTimeFormat() throws ParseException {
+            var date = "2021-12-04T23:04";
+            var dateFormat = "yyyy-MM-dd'T'HH:mm";
+
+            //When
+            var operationsFlow = DateFlow
+                    .from(date, dateFormat);
 
             //Then
             assertThat(operationsFlow).isNotNull();

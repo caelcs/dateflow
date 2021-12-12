@@ -18,15 +18,6 @@ public class DateFlow {
         return new OperationsFlow();
     }
 
-    public static OperationsFlow from(LocalDate localDate) {
-        var operationsFlow = new OperationsFlow();
-        operationsFlow.instant = localDate
-                .atStartOfDay()
-                .atZone(operationsFlow.zoneId)
-                .toInstant();
-        return operationsFlow;
-    }
-
     public static OperationsFlow from(LocalDateTime localDateTime, ZoneId zoneId) {
         var operationsFlow = new OperationsFlow();
         operationsFlow.instant = localDateTime
@@ -37,7 +28,32 @@ public class DateFlow {
         return operationsFlow;
     }
 
-    public static OperationsFlow from(long millis) {
+    public static OperationsFlow from(String date, String dateFormat, ZoneId zoneId) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
+        format.setTimeZone(TimeZone.getTimeZone(zoneId.getId()));
+        format.setLenient(false);
+        Date dateParsed = format.parse(date);
+        return fromUTC(dateParsed);
+    }
+
+    public static OperationsFlow from(LocalDateTime localDateTime) {
+        return from(localDateTime, ZoneId.systemDefault());
+    }
+
+    public static OperationsFlow from(String date, String dateFormat) throws ParseException {
+        return from(date, dateFormat, ZoneId.systemDefault());
+    }
+
+    public static OperationsFlow fromUTC(LocalDate localDate) {
+        var operationsFlow = new OperationsFlow();
+        operationsFlow.instant = localDate
+                .atStartOfDay()
+                .atZone(operationsFlow.zoneId)
+                .toInstant();
+        return operationsFlow;
+    }
+
+    public static OperationsFlow fromUTC(long millis) {
         var operationsFlow = new OperationsFlow();
         operationsFlow.instant = Instant
                 .ofEpochMilli(millis)
@@ -46,26 +62,11 @@ public class DateFlow {
         return operationsFlow;
     }
 
-    public static OperationsFlow from(Instant instant) {
+    public static OperationsFlow fromUTC(Instant instant) {
         var operationsFlow = new OperationsFlow();
         operationsFlow.instant = instant
                 .atZone(operationsFlow.zoneId)
                 .toInstant();
-        return operationsFlow;
-    }
-
-    public static OperationsFlow from(String date, String dateFormat, TimeZone timeZone) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
-        format.setTimeZone(timeZone);
-        format.setLenient(false);
-        Date dateParsed = format.parse(date);
-        return fromUTC(dateParsed);
-    }
-
-    public static OperationsFlow fromUTC(LocalDate localDate) {
-        var operationsFlow = new OperationsFlow();
-        operationsFlow.instant = localDate.atStartOfDay()
-                .toInstant(ZoneOffset.UTC);
         return operationsFlow;
     }
 
