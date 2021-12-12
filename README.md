@@ -12,6 +12,7 @@ format based on String you might find DateFlow helpful.
 
 ## define the source date time from different classes.
 
+```java```
 DateFlow
     .now() (create Instant from current date time)
     .fromMillis(long millis) (create Instant from epoc milliseconds)
@@ -25,14 +26,16 @@ DateFlow
     .fromUTC(String date) (Create Instant from Date, the assumption here is that the date time is already in UTC and using a default datetime format)
     .fromUTC(LocalDateTime dateTime) (Create Instant from LocalDateTime, the assumption here is that the date time is already in UTC)
     .fromUTC(LocalDate localDate) (Create Instant from Date, the assumption here is that the date time is already in UTC)
+```java```
 
 ## Reset time to 00:00:00 or 23:59:59:999
-
+```java```
     .resetTime() 
-    .resetTimeToLastSecondOfDay() 
+    .resetTimeToLastSecondOfDay()
+```java```
 
 ## Basic manipulation of the date time
-
+```java```
     .plusMonths(int months) 
     .plusDays(int days) 
     .plusMinutes(int minutes) 
@@ -41,9 +44,10 @@ DateFlow
     .minusMonths(int months) 
     .minusMinutes(int minutes) 
     .minusHours(int hours) 
-    .minusDays(int days) 
-
+    .minusDays(int days)
+```java```
 ## exporting the datetime as
+```java```
     .as()
         .date() 
         .localDate() 
@@ -54,7 +58,7 @@ DateFlow
         .hour() 
         .minutes() 
         .seconds()
-
+```java```
 ### define export ZoneId to be use when you export date time
     .as()
         .zoneIdUTC() 
