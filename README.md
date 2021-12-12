@@ -1,5 +1,7 @@
 # Dateflow
 
+[![Java CI with Gradle](https://github.com/caelcs/dateflow/actions/workflows/github-actions-build.yml/badge.svg)](https://github.com/caelcs/dateflow/actions/workflows/github-actions-build.yml)
+
 DateFlow is a fluent interface to deal with java Date utils methods that you would normally have in your project.
 
 The motivation comes from projects where you are deeply constraint to the use of Date or String and you are 
