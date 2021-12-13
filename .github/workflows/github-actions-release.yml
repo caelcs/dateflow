@@ -2,18 +2,17 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
+
+name: Publish package to GitHub Packages
 on:
-  push:
-    # Sequence of patterns matched against refs/tags
-    tags:
-      - '*.RELEASE' # Push events to matching *.RELEASE, i.e. 1.0.RELEASE
-
-name: Upload Release Asset
-
+  release:
+    types: [created]
 jobs:
-  build:
-    name: Upload Release Asset
+  publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
@@ -22,25 +21,7 @@ jobs:
           distribution: 'adopt'
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
-      - name: Build with Gradle
-        run: ./gradlew build
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Publish package
+        run: gradle build publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/build/libs
-          asset_name: dateflow.jar
-          asset_content_type: application/jar

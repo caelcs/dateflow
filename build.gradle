@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.assertj:assertj-core:3.21.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.1.0'
     testImplementation 'org.junit-pioneer:junit-pioneer:1.5.0'
@@ -41,6 +41,34 @@ test {
 }
 
 publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'DateFlow'
+                description = 'Library to handle date time conversions'
+                url = 'https://github.com/caelcs/dateflow'
+
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'caelcs'
+                        name = 'Adolfo Custidiano'
+                        email = 'info.cael@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:caelcs/dateflow.git'
+                    developerConnection = 'scm:git:ssh:/caelcs/dateflow.git'
+                    url = 'https://github.com/caelcs/dateflow'
+                }
+            }
+        }
+    }
     repositories {
         maven {
             name = "GitHubPackages"
@@ -52,3 +80,4 @@ publishing {
         }
     }
 }
+
