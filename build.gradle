@@ -44,9 +44,14 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             pom {
+
                 name = 'DateFlow'
                 description = 'Library to handle date time conversions'
                 url = 'https://github.com/caelcs/dateflow'
+
+                groupId = "com.dateflow"
+                artifactId = "dateflow"
+                version = "0.0.7.RELEASE"
 
                 licenses {
                     license {
