@@ -22,17 +22,12 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      - uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          name: RELEASE ${{ github.ref }}
+          tag: ${{ github.ref }}
           body: |
             tag: ${{ github.ref }}
             ChangeLog:
             ${{steps.github_release.outputs.changelog}}
-          draft: false
-          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
