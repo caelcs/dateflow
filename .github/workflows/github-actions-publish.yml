@@ -5,11 +5,10 @@
 
 name: Publish package to GitHub Packages
 on:
-  release:
-    types: # This configuration does not affect the page_build event above
-      - published
-      - created
-      - released
+  workflow_run:
+    workflows: ["Create Release"]
+    types: [completed]
+
 jobs:
   publish:
     runs-on: ubuntu-latest
