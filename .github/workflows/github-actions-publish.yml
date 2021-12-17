@@ -7,6 +7,8 @@ name: Publish package to GitHub Packages
 on:
   release:
     types: # This configuration does not affect the page_build event above
+      - published
+      - created
       - released
 jobs:
   publish:
