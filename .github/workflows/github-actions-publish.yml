@@ -7,7 +7,7 @@ name: Publish package to GitHub Packages
 on:
   release:
     types: # This configuration does not affect the page_build event above
-      - created
+      - released
 jobs:
   publish:
     runs-on: ubuntu-latest
