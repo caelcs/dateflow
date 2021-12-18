@@ -26,9 +26,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
-      - name: list directory
-        run: |
-          ls -la
       - name: Build Changelog
         id: github_release
         uses: mikepenz/release-changelog-builder-action@v1
@@ -51,18 +48,12 @@ jobs:
             ${{steps.github_release.outputs.changelog}}
           draft: false
           prerelease: false
-      - name: list directory 2
-        run: |
-          cd build
-          ls -la
-          cd libs
-          ls -la
       - name: upload jar artifact
         uses: actions/upload-release-asset@latest
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dateflow/build/libs/dataflow.jar
-          asset_name: dataflow.jar
+          asset_path: build/libs/dateflow.jar
+          asset_name: dateflow.jar
           asset_content_type: application/jar
