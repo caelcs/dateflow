@@ -23,8 +23,10 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Build with Gradle
-        run: ./gradlew build test
+      - uses: gradle/gradle-build-action@latest
+        with:
+          arguments: build
+          build-root-directory: ${{ github.workspace }}/build
       - name: Build Changelog
         id: github_release
         uses: mikepenz/release-changelog-builder-action@v1
@@ -53,6 +55,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dataflow.jar
+          asset_path: ${{ github.workspace }}/build/libs/dataflow.jar
           asset_name: dataflow.jar
           asset_content_type: application/jar
