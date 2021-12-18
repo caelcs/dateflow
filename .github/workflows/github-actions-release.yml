@@ -26,7 +26,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
-          build-root-directory: build
       - name: Build Changelog
         id: github_release
         uses: mikepenz/release-changelog-builder-action@v1
