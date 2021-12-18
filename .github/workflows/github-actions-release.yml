@@ -26,6 +26,9 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
+      - name: list directory
+        run: |
+          ls -la
       - name: Build Changelog
         id: github_release
         uses: mikepenz/release-changelog-builder-action@v1
@@ -48,6 +51,9 @@ jobs:
             ${{steps.github_release.outputs.changelog}}
           draft: false
           prerelease: false
+      - name: list directory 2
+        run: |
+          ls -la
       - name: upload jar artifact
         uses: actions/upload-release-asset@latest
         env:
