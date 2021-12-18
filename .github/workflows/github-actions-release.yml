@@ -25,7 +25,7 @@ jobs:
       - name: Build
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build
+          arguments: build publish
       - name: Build Changelog
         id: github_release
         uses: mikepenz/release-changelog-builder-action@v1
@@ -48,12 +48,12 @@ jobs:
             ${{steps.github_release.outputs.changelog}}
           draft: false
           prerelease: false
-      - name: upload jar artifact
+      - name: upload jar as release asset
         uses: actions/upload-release-asset@latest
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/dateflow.jar
+          asset_path: build/libs
           asset_name: dateflow.jar
           asset_content_type: application/jar
