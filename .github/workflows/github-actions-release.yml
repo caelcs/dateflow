@@ -14,7 +14,6 @@ jobs:
   build:
     name: Create Release
     runs-on: ubuntu-latest
-    permissions: write-all
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,7 +23,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Build
-      - uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v2
         with:
           arguments: build
           build-root-directory: build
