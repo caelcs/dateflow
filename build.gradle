@@ -6,8 +6,6 @@ plugins {
     id("pl.allegro.tech.build.axion-release") version "1.13.6"
 }
 
-project.version = scmVersion.version
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(11)
