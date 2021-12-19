@@ -72,7 +72,7 @@ format based on String you might find DateFlow helpful.
 
 ## Requirements:
 
-- [Java 17](https://openjdk.java.net/projects/jdk/17/)
+- [Java 11](https://openjdk.java.net/projects/jdk/11/)
 - [Gradle 7.3.1](https://gradle.org/releases/)
 
 ## Run
