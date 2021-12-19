@@ -8,7 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
+      checks: write
       contents: read
+      issues: read
+      pull-requests: write
       packages: write
     steps:
       - uses: actions/checkout@v2
@@ -26,5 +29,3 @@ jobs:
         uses: scacap/action-surefire-report@v1
         with:
           report_paths: '**/build/test-results/test/TEST-*.xml'
-        env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
