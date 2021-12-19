@@ -1,6 +1,6 @@
 # Dateflow
 
-[![Java CI with Gradle](https://github.com/caelcs/dateflow/actions/workflows/github-actions-build.yml/badge.svg)](https://github.com/caelcs/dateflow/actions/workflows/github-actions-build.yml)
+[![Release build](https://github.com/caelcs/dateflow/actions/workflows/github-actions-release.yml/badge.svg)](https://github.com/caelcs/dateflow/actions/workflows/github-actions-release.yml)
 
 DateFlow is a fluent interface to deal with java Date utils methods that you would normally have in your project.
 
